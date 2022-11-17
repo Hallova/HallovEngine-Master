@@ -19,7 +19,7 @@ public static unsafe class Program
         //Hallov.Console.Assert(false, "Oh, i started");
         Hallov.Console.Log("hi i just started", ConsoleColor.DarkBlue, typeof(OpenGL));
         
-       
+        
 
         new Game().Run();
     }
