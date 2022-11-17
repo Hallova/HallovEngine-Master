@@ -5,18 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace HallovEngine.Render
 {
     public static partial class Rendering
     {
         public abstract class Shader
         {
-            public static Shader Create()
+            public static Shader New(string frag, string vert)
             {
-                throw new NotImplementedException();
-                //return new OpenGL.GLShader(null, null);
+                return new OpenGL.GLShader(vert, frag);
             }
 
+            public abstract void Use();
         }
     }
 }

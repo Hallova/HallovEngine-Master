@@ -40,7 +40,11 @@ namespace HallovEngine.Core
 
             i_graphicsEngine.Init();
             this.Init();
-            
+
+            HV_LOG(false, "this is a log", this.GetType());
+            HV_LOG_WARNING (false, "this is a Warning", this.GetType());
+            HV_LOG_ERROR(false, "this is a Error", this.GetType());
+
             while (i_graphicsEngine.IsRunning)
             {
                 i_graphicsEngine.Update();

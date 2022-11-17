@@ -57,7 +57,7 @@ namespace HallovEngine.Platform.OpenGL
 
             public override void PreRender()
             {
-                GL.ClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+                GL.ClearColor(0, 0.3f, 0.4f, 1);
                 GL.Clear(ClearBufferMask.ColorBufferBit);
             }
 

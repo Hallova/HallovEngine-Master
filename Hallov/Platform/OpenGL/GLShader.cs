@@ -1,22 +1,24 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using HallovEngine.Render;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+
 
 namespace HallovEngine.Platform.OpenGL
 {
     public static partial class OpenGL
     {
 
-        public class GLShader
+        public class GLShader : Rendering.Shader
         {
             public readonly int Handle;
 
             private readonly Dictionary<string, int> _uniformLocations;
 
 
-            public GLShader(string vertPath, string fragPath)
+            public GLShader(string vert, string frag)
             {
 
-                var shaderSource = File.ReadAllText(vertPath);
+                var shaderSource = vert;
 
                 // GL.CreateShader will create an empty shader (obviously). The ShaderType enum denotes which type of shader will be created.
                 var vertexShader = GL.CreateShader(ShaderType.VertexShader);
@@ -28,7 +30,7 @@ namespace HallovEngine.Platform.OpenGL
                 CompileShader(vertexShader);
 
                 // We do the same for the fragment shader.
-                shaderSource = File.ReadAllText(fragPath);
+                shaderSource = frag;
                 var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
                 GL.ShaderSource(fragmentShader, shaderSource);
                 CompileShader(fragmentShader);
@@ -105,7 +107,7 @@ namespace HallovEngine.Platform.OpenGL
             }
 
             // A wrapper function that enables the shader program.
-            public void Use()
+            public override void Use()
             {
                 GL.UseProgram(Handle);
             }
