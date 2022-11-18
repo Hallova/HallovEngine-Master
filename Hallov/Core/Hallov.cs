@@ -35,7 +35,7 @@ namespace HallovEngine.Core
 
                 public static void HV_LOG(bool v, string message, [Optional] Type shooter)
                 {
-                    Console.Log(message, ConsoleColor.DarkGray, shooter);
+                    Console.Log(message, ConsoleColor.Green, shooter);
                 }
             }
             

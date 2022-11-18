@@ -11,13 +11,25 @@ namespace Testing
 
         Rendering.VertexBuffer vertexBuffer;
         Rendering.VertexArray VertexArray;
+        Rendering.IndexBuffer indexBuffer;
+
         Rendering.Shader shader;
 
         private readonly float[] _vertices =
+         {
+             0.5f,  0.5f, 0.0f, // top right
+             0.5f, -0.5f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f, // bottom left
+            -0.5f,  0.5f, 0.0f, // top left
+        };
+
+        // Then, we create a new array: indices.
+        // This array controls how the EBO will use those vertices to create triangles
+        private readonly uint[] _indices =
         {
-            -0.5f, -0.5f, 0.0f, // Bottom-left vertex
-             0.5f, -0.5f, 0.0f, // Bottom-right vertex
-             0.0f,  0.5f, 0.0f  // Top vertex
+            // Note that indices start at 0!
+            0, 1, 3, // The first triangle will be the top-right half of the triangle
+            1, 2, 3  // Then the second will be the bottom-left half of the triangle
         };
 
         public override void Init()
@@ -32,6 +44,10 @@ namespace Testing
             VertexArray.AttribPointer(0, 3, 5126, false, 3 * sizeof(float), 0);
             //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             VertexArray.EndConfig();
+
+            indexBuffer = Rendering.IndexBuffer.New();
+            indexBuffer.BindBuffer();
+            indexBuffer.BufferData(_indices.Length * sizeof(int), _indices, 5125);
 
             shader = Rendering.Shader.New(@"
 #version 330 
@@ -63,8 +79,8 @@ void main(void)
             shader.Use();
 
             vertexBuffer.BindBuffer();
-            VertexArray.Draw(3);
-
+            //VertexArray.Draw(3);
+            VertexArray.DrawIndexed(_indices.Length, 5125);
             Interlocked.Increment(ref fps._frameCount);
         }
 

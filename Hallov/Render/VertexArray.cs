@@ -21,6 +21,7 @@ namespace HallovEngine.Render
             public abstract void EndConfig();
 
             public abstract void Draw(int count);
+            public abstract void DrawIndexed(int lenght, uint type);
         }
     }
 }
