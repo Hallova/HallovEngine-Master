@@ -18,6 +18,7 @@ namespace HallovEngine.Render
             }
 
             public abstract void AttribPointer(int index, int size, int type, bool normal, int stride, int offset);
+            public abstract void EndConfig();
 
             public abstract void Draw(int count);
         }

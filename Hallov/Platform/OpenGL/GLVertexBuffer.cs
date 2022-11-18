@@ -17,6 +17,7 @@ namespace HallovEngine.Platform.OpenGL
             public GLVertexBuffer()
             {
                 program = GL.GenBuffer();
+                HV_LOG(false, "VertexBuffer Creted : " + program, this.GetType());
             }
             public override void BindBuffer()
             {

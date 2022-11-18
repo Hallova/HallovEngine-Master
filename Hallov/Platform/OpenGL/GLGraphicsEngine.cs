@@ -63,8 +63,16 @@ namespace HallovEngine.Platform.OpenGL
 
             public override uint Render()
             {
-                GLFW.SwapBuffers(i_Window);
-                GLFW.PollEvents();
+                try
+                {
+                    GLFW.SwapBuffers(i_Window);
+                    GLFW.PollEvents();
+                }
+                catch(Exception ex)
+                {
+                    HV_LOG_ERROR(true ,ex.Message);
+                }
+                
                 return 0;
             }
 

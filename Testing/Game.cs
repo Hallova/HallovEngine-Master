@@ -18,7 +18,7 @@ namespace Testing
             -0.5f, -0.5f, 0.0f, // Bottom-left vertex
              0.5f, -0.5f, 0.0f, // Bottom-right vertex
              0.0f,  0.5f, 0.0f  // Top vertex
-        }; 
+        };
 
         public override void Init()
         {
@@ -26,19 +26,21 @@ namespace Testing
             vertexBuffer.BindBuffer();
             vertexBuffer.BufferData(_vertices.Length * sizeof(float), _vertices, 2);
             //OpenTK.Graphics.OpenGL4.GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
-            
+
             VertexArray = Rendering.VertexArray.New();
 
             VertexArray.AttribPointer(0, 3, 5126, false, 3 * sizeof(float), 0);
             //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            VertexArray.EndConfig();
 
-            shader = Rendering.Shader.New(@"#version 330
+            shader = Rendering.Shader.New(@"
+#version 330 
 
 out vec4 outputColor;
 
 void main()
 {
-    outputColor = vec4(1.0, 1.0, 0.0, 1.0);
+    outputColor = vec4(0.8f,0.9f, 0.4f, 1.0f);
 }", @"#version 330 core
 
 
@@ -53,13 +55,14 @@ void main(void)
         public override void Update()
         {
             fps.GetFps();
-            Hallov.Console.Log(fps.secondsElapsed.ToString(), ConsoleColor.DarkYellow, this.GetType());
+            //Hallov.Console.Log(fps.secondsElapsed.ToString(), ConsoleColor.DarkYellow, this.GetType());
         }
-        
+
         public override void Render()
         {
             shader.Use();
 
+            vertexBuffer.BindBuffer();
             VertexArray.Draw(3);
 
             Interlocked.Increment(ref fps._frameCount);

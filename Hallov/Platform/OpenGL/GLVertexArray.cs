@@ -23,13 +23,18 @@ namespace HallovEngine.Platform.OpenGL
             {
                 GL.VertexAttribPointer(index, size, (VertexAttribPointerType)type, normal, stride, offset);
                 //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-
+                
             }
 
             public override void Draw(int count)
             {
                 GL.BindVertexArray(array);
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            }
+
+            public override void EndConfig()
+            {
+                GL.EnableVertexAttribArray(0);
             }
         }
     }
