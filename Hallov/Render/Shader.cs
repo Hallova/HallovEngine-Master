@@ -1,4 +1,5 @@
-﻿using HallovEngine.Platform.OpenGL;
+﻿using HallovEngine.Core;
+using HallovEngine.Platform.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace HallovEngine.Render
         {
             public static Shader New(string frag, string vert)
             {
-                return new OpenGL.GLShader(vert, frag);
+                return Hallov.ProvideShaderFromText(frag, vert);
             }
 
             public abstract void Use();

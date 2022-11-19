@@ -1,4 +1,5 @@
-﻿using HallovEngine.Platform.OpenGL;
+﻿using HallovEngine.Core;
+using HallovEngine.Platform.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace HallovEngine.Render
         {
             public static Texture CreateFromFile(string path)
             {
-                return OpenGL.GLTexture.LoadFromFile(path);
+                return Hallov.ProvideTextureFromFile(path);
             }
 
             public abstract void Use(int unit);

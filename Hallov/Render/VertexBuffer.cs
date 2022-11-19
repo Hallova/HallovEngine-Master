@@ -1,4 +1,5 @@
 ﻿
+using HallovEngine.Core;
 using HallovEngine.Platform.OpenGL;
 
 namespace HallovEngine.Render
@@ -9,7 +10,7 @@ namespace HallovEngine.Render
         {
             public static VertexBuffer New()
             {
-                return new OpenGL.GLVertexBuffer();
+                return Hallov.ProvideVertexBuffer();
             }
 
             public abstract void BindBuffer();

@@ -1,4 +1,5 @@
-﻿using HallovEngine.Platform.OpenGL;
+﻿using HallovEngine.Core;
+using HallovEngine.Platform.OpenGL;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace HallovEngine.Render
         {
             public static VertexArray New()
             {
-                return new OpenGL.GLVertexArray();
+                return Hallov.ProvideVertexArray();
+                //return new OpenGL.GLVertexArray();
             }
 
             public abstract void AttribPointer(int index, int size, int type, bool normal, int stride, int offset);

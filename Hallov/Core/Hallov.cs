@@ -4,6 +4,7 @@ using HallovEngine.Platform.OpenGL;
 using HallovEngine.Render;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,10 +14,99 @@ namespace HallovEngine.Core
 {
     public static partial class Hallov
     {
+        public enum RenderApi
+        {
+            OpenGL = 0,
+            None = -1
+        }
+
+        public static RenderApi Api = RenderApi.None;
+
         public static GraphicsEngine ProvideGrapicsEngine()
         {
-            return new OpenGL.GLGraphicsEngine();
+            switch (Api)
+            {
+                case RenderApi.OpenGL:
+                    return new OpenGL.GLGraphicsEngine();
+                case RenderApi.None:
+                    throw new NotImplementedException("Api Not Suported");
+                default:
+                    throw new Exception("THATS IMPOSIBLE WTF ");
+
+            }
         }
+
+        internal static Rendering.Texture ProvideTextureFromFile(string path)
+        {
+            switch (Api)
+            {
+                case RenderApi.OpenGL:
+                    return OpenGL.GLTexture.LoadFromFile(path);
+                case RenderApi.None:
+                    throw new NotImplementedException("Api Not Suported");
+                default:
+                    throw new Exception("THATS IMPOSIBLE WTF ");
+
+            }   
+        }
+
+        internal static Rendering.IndexBuffer ProvideIndexBuffer()
+        {
+            switch (Api)
+            {
+                case RenderApi.OpenGL:
+                    return new OpenGL.GLIndexBuffer();
+                case RenderApi.None:
+                    throw new NotImplementedException("Api Not Suported");
+                default:
+                    throw new Exception("THATS IMPOSIBLE WTF ");
+
+            }
+        }
+
+        internal static Rendering.Shader ProvideShaderFromText(string frag, string vert)
+        {
+            switch (Api)
+            {
+                case RenderApi.OpenGL:
+                    return OpenGL.GLShader.New(frag, vert);
+                case RenderApi.None:
+                    throw new NotImplementedException("Api Not Suported");
+                default:
+                    throw new Exception("THATS IMPOSIBLE WTF ");
+
+            }
+        }
+
+        internal static Rendering.VertexArray ProvideVertexArray()
+        {
+            switch (Api)
+            {
+                case RenderApi.OpenGL:
+                    return new OpenGL.GLVertexArray();
+                case RenderApi.None:
+                    throw new NotImplementedException("Api Not Suported");
+                default:
+                    throw new Exception("THATS IMPOSIBLE WTF ");
+
+            }
+        }
+
+        internal static Rendering.VertexBuffer ProvideVertexBuffer()
+        {
+            switch (Api)
+            {
+                case RenderApi.OpenGL:
+                    return new OpenGL.GLVertexBuffer();
+                case RenderApi.None:
+                    throw new NotImplementedException("Api Not Suported");
+                default:
+                    throw new Exception("THATS IMPOSIBLE WTF ");
+
+            }
+        }
+
+
 
         public static class Console
         {
@@ -36,6 +126,11 @@ namespace HallovEngine.Core
                 public static void HV_LOG(bool v, string message, [Optional] Type shooter)
                 {
                     Console.Log(message, ConsoleColor.Green, shooter);
+                }
+
+                public static void HV_LOG_INFO(bool v, string message, [Optional] Type shooter)
+                {
+                    Console.Log(message, ConsoleColor.Cyan, shooter);
                 }
             }
             

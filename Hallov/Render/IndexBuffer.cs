@@ -1,4 +1,5 @@
-﻿using HallovEngine.Platform.OpenGL;
+﻿using HallovEngine.Core;
+using HallovEngine.Platform.OpenGL;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace HallovEngine.Render
 
             public static IndexBuffer New()
             {
-                return new OpenGL.GLIndexBuffer();
+                return Hallov.ProvideIndexBuffer();
             }
 
             public abstract void BindBuffer();
