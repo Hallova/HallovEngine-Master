@@ -21,6 +21,7 @@ namespace HallovEngine.Platform.OpenGL
 
             public override void AttribPointer(int index, int size, int type, bool normal, int stride, int offset)
             {
+                GL.EnableVertexAttribArray(index);
                 GL.VertexAttribPointer(index, size, (VertexAttribPointerType)type, normal, stride, offset);
                 //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
                 

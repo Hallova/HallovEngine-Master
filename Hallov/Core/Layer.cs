@@ -47,6 +47,8 @@ namespace HallovEngine.Core
 
             while (i_graphicsEngine.IsRunning)
             {
+                i_graphicsEngine.ChangeTitle(Title);
+
                 i_graphicsEngine.Update();
                 this.Update();
 

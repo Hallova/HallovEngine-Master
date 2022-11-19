@@ -23,7 +23,7 @@ namespace HallovEngine.Platform.OpenGL
                 //GLLoader.LoadBindings(new GLFWBindingsContext());
 
                 i_Window = GLFW.CreateWindow(800, 600, "hi", null, null);
-
+                
 
                 if (i_Window is null)
                 {
@@ -33,6 +33,8 @@ namespace HallovEngine.Platform.OpenGL
                 GLFW.SetFramebufferSizeCallback(i_Window, framebuffer_size_callback);
 
                 GLFW.MakeContextCurrent(i_Window);
+
+                GLFW.SwapInterval(0);
 
                 //GLFW.CreateWindowSurface(new VkHandle())
                 GL.LoadBindings(new GLFWBindingsContext());
@@ -79,6 +81,11 @@ namespace HallovEngine.Platform.OpenGL
             public override void Destroy()
             {
 
+            }
+
+            public override void ChangeTitle(string ty)
+            {
+                GLFW.SetWindowTitle(i_Window, ty);
             }
         }
     }

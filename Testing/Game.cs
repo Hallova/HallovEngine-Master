@@ -1,6 +1,7 @@
 ﻿using HallovEngine.Core;
 using HallovEngine.Render;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Platform.Windows;
 
 namespace Testing
 {
@@ -13,14 +14,17 @@ namespace Testing
         Rendering.VertexArray VertexArray;
         Rendering.IndexBuffer indexBuffer;
 
+        Rendering.Texture texture;
+
         Rendering.Shader shader;
 
         private readonly float[] _vertices =
          {
-             0.5f,  0.5f, 0.0f, // top right
-             0.5f, -0.5f, 0.0f, // bottom right
-            -0.5f, -0.5f, 0.0f, // bottom left
-            -0.5f,  0.5f, 0.0f, // top left
+            // Position         Texture coordinates
+             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
+             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
         };
 
         // Then, we create a new array: indices.
@@ -41,7 +45,14 @@ namespace Testing
 
             VertexArray = Rendering.VertexArray.New();
 
-            VertexArray.AttribPointer(0, 3, 5126, false, 3 * sizeof(float), 0);
+            //position
+            VertexArray.AttribPointer(0, 3, 5126, false, 5 * sizeof(float), 0);
+
+
+            //texcoords
+            VertexArray.AttribPointer(1, 2, 5126, false, 5 * sizeof(float), 3 * sizeof(float));
+
+
             //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             VertexArray.EndConfig();
 
@@ -50,33 +61,50 @@ namespace Testing
             indexBuffer.BufferData(_indices.Length * sizeof(int), _indices, 5125);
 
             shader = Rendering.Shader.New(@"
-#version 330 
+#version 330
 
 out vec4 outputColor;
 
+in vec2 texCoord;
+
+uniform sampler2D texture0;
+
 void main()
 {
-    outputColor = vec4(0.8f,0.9f, 0.4f, 1.0f);
-}", @"#version 330 core
-
+ 
+    outputColor = texture(texture0, texCoord);
+}", @"
+#version 330 core
 
 layout(location = 0) in vec3 aPosition;
 
+layout(location = 1) in vec2 aTexCoord;
+
+out vec2 texCoord;
+
 void main(void)
 {
+    texCoord = aTexCoord;
+
     gl_Position = vec4(aPosition, 1.0);
 }");
             shader.Use();
+
+            texture = Rendering.Texture.CreateFromFile(@"D:\Dev\HallovEngine-Master\Testing\Decals\Graffiti\decalgraffiti001b_cs.png");
+            texture.Use((int)TextureUnit.Texture0);
+
         }
         public override void Update()
         {
             fps.GetFps();
+            _title = (1.0f / fps.secondsElapsed).ToString();
             //Hallov.Console.Log(fps.secondsElapsed.ToString(), ConsoleColor.DarkYellow, this.GetType());
         }
 
         public override void Render()
         {
             shader.Use();
+            texture.Use((int)TextureUnit.Texture0);
 
             vertexBuffer.BindBuffer();
             //VertexArray.Draw(3);
