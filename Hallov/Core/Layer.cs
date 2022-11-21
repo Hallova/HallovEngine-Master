@@ -17,15 +17,10 @@ namespace HallovEngine.Core
 
             public static double GetFps()
             {
-
                 secondsElapsed = (DateTime.Now - _lastCheckTime).TotalSeconds;
                 long count = Interlocked.Exchange(ref _frameCount, 0);
                 double fps = count / secondsElapsed;
                 _lastCheckTime = DateTime.Now;
-
-               
-
-
                 return fps;
             }
         }
@@ -35,6 +30,7 @@ namespace HallovEngine.Core
 
         public uint Run()
         {
+
             i_graphicsEngine = Hallov.ProvideGrapicsEngine();
             //Hallov.Console.Assert(false, "LOLO");
 

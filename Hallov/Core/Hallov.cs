@@ -20,7 +20,7 @@ namespace HallovEngine.Core
             None = -1
         }
 
-        public static RenderApi Api = RenderApi.None;
+        public static RenderApi Api = RenderApi.OpenGL;
 
         public static GraphicsEngine ProvideGrapicsEngine()
         {
@@ -69,7 +69,7 @@ namespace HallovEngine.Core
             switch (Api)
             {
                 case RenderApi.OpenGL:
-                    return OpenGL.GLShader.New(frag, vert);
+                    return new OpenGL.GLShader(vert, frag);
                 case RenderApi.None:
                     throw new NotImplementedException("Api Not Suported");
                 default:

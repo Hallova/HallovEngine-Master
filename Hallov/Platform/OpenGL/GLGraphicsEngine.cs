@@ -2,6 +2,7 @@
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Vortice.DXGI;
 
 namespace HallovEngine.Platform.OpenGL
 {
@@ -24,13 +25,13 @@ namespace HallovEngine.Platform.OpenGL
 
                 i_Window = GLFW.CreateWindow(800, 600, "hi", null, null);
                 
-
                 if (i_Window is null)
                 {
                     GLFW.DestroyWindow(i_Window);
                 }
 
                 GLFW.SetFramebufferSizeCallback(i_Window, framebuffer_size_callback);
+                
 
                 GLFW.MakeContextCurrent(i_Window);
 
@@ -48,12 +49,14 @@ namespace HallovEngine.Platform.OpenGL
                 // make sure the viewport matches the new window dimensions; note that width and 
                 // height will be significantly larger than specified on retina displays.
                 GL.Viewport(0, 0, width, height);
+                //GC.Collect();
             }
             #endregion
 
             public override uint Update()
             {
-
+                //GC.Collect();
+                GLFW.PollEvents();
                 return 0;
             }
 
@@ -68,9 +71,9 @@ namespace HallovEngine.Platform.OpenGL
                 try
                 {
                     GLFW.SwapBuffers(i_Window);
-                    GLFW.PollEvents();
+                    
                 }
-                catch(Exception ex)
+                catch(System.ExecutionEngineException ex)
                 {
                     HV_LOG_ERROR(true ,ex.Message);
                 }

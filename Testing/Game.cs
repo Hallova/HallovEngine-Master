@@ -3,6 +3,7 @@ using HallovEngine.Render;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Platform.Windows;
 
+
 namespace Testing
 {
     public sealed class Game : Layer
@@ -38,6 +39,9 @@ namespace Testing
 
         public override void Init()
         {
+
+            
+
             vertexBuffer = Rendering.VertexBuffer.New();
             vertexBuffer.BindBuffer();
             vertexBuffer.BufferData(_vertices.Length * sizeof(float), _vertices, 2);
@@ -96,8 +100,8 @@ void main(void)
         }
         public override void Update()
         {
-            fps.GetFps();
-            _title = (1.0f / fps.secondsElapsed).ToString();
+            //fps.GetFps();
+            Hallov.Console.Messages.HV_LOG_WARNING(false, fps.GetFps().ToString());
             //Hallov.Console.Log(fps.secondsElapsed.ToString(), ConsoleColor.DarkYellow, this.GetType());
         }
 
