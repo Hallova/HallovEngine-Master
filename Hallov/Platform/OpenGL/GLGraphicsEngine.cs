@@ -56,7 +56,16 @@ namespace HallovEngine.Platform.OpenGL
             public override uint Update()
             {
                 //GC.Collect();
-                GLFW.PollEvents();
+                try
+                {
+                    GLFW.PollEvents();
+
+                }
+                finally
+                {
+
+                }
+
                 return 0;
             }
 

@@ -13,10 +13,40 @@ namespace HallovEngine.Render
     {
         public abstract class Shader
         {
+            public enum ShaderDataType : uint
+            {
+                Int,
+                Float,
+
+                Float2,
+                Float3,
+                Float4,
+
+                Mat4,
+
+                Sampler2D,
+
+                Undefied,
+            }
+
+            //public abstract T GetVariable<T>(string name) where T : new();
+
+            public abstract T SetVariable<T>(string name, T boj);
+
             public static Shader New(string frag, string vert)
             {
                 return Hallov.ProvideShaderFromText(frag, vert);
             }
+            public static ShaderDataType GetShaderDataType(Type type)
+            {
+                if(type == typeof(int))
+                {
+                    return ShaderDataType.Int;
+                }
+
+                return ShaderDataType.Undefied;
+            }
+
 
             public abstract void Use();
         }

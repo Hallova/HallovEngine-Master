@@ -10,14 +10,18 @@ namespace HallovEngine.Platform.OpenGL
 
         public class GLShader : Rendering.Shader
         {
-            public readonly int Handle;
-
-            private readonly Dictionary<string, int> _uniformLocations;
+            public   int                      Handle;
+            private  Dictionary<string, int> _uniformLocations;
 
 
             public GLShader(string vert, string frag)
             {
 
+                CreateShaderFromText(vert, frag);
+            }
+
+            private void CreateShaderFromText(string vert, string frag)
+            {
                 var shaderSource = vert;
 
                 // GL.CreateShader will create an empty shader (obviously). The ShaderType enum denotes which type of shader will be created.
@@ -67,8 +71,9 @@ namespace HallovEngine.Platform.OpenGL
                 for (var i = 0; i < numberOfUniforms; i++)
                 {
                     // get the name of this uniform,
-                    var key = GL.GetActiveUniform(Handle, i, out _, out _);
+                    var key = GL.GetActiveUniform(Handle, i, out _, out ActiveUniformType d);
 
+                    //if(d == )
                     // get the location,
                     var location = GL.GetUniformLocation(Handle, key);
 
@@ -119,7 +124,27 @@ namespace HallovEngine.Platform.OpenGL
                 return GL.GetAttribLocation(Handle, attribName);
             }
 
+           
+            public override T SetVariable<T>(string name, T boj) //new()
+            {
+                if (_uniformLocations.TryGetValue(name, out var location))
+                {
+                    GL.UseProgram(Handle);
+                    switch (Rendering.Shader.GetShaderDataType(boj.GetType()))
+                    {
+                       
+                    }                   
+                }
+                else
+                {
 
+                }
+
+                throw new Exception("dk");
+            }
+
+
+            #region Sets
             /// <summary>
             /// Set a uniform int on this shader.
             /// </summary>
@@ -168,6 +193,9 @@ namespace HallovEngine.Platform.OpenGL
                 GL.UseProgram(Handle);
                 GL.Uniform3(_uniformLocations[name], data);
             }
+
+           
+            #endregion
         }
     }
 }
