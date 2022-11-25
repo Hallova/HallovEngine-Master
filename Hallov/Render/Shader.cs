@@ -29,10 +29,9 @@ namespace HallovEngine.Render
                 Undefied,
             }
 
-            //public abstract T GetVariable<T>(string name) where T : new();
+            public abstract byte CompileShader();
 
-            public abstract T SetVariable<T>(string name, T boj);
-
+            
             public static Shader New(string frag, string vert)
             {
                 return Hallov.ProvideShaderFromText(frag, vert);

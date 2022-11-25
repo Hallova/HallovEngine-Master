@@ -13,17 +13,88 @@ namespace HallovEngine.Platform.OpenGL
             public   int                      Handle;
             private  Dictionary<string, int> _uniformLocations;
 
+            private string VertexShader;   private bool VertexAttached;
+            private string FragmentShader; private bool FragmentAttached;
+
 
             public GLShader(string vert, string frag)
             {
 
                 CreateShaderFromText(vert, frag);
             }
+           
+
+            public override byte CompileShader()
+            {
+                string ShaderSource = "";
+
+                Handle = GL.CreateProgram();
+
+                int vertexShader = 0;
+                int fragmentShader = 0;
+
+                if (VertexAttached)
+                {
+                    ShaderSource = VertexShader;
+                    vertexShader = GL.CreateShader(ShaderType.VertexShader);
+
+                    // Now, bind the GLSL source code
+                    GL.ShaderSource(vertexShader, ShaderSource);
+
+                    // And then compile
+                    CompileShader(vertexShader);
+
+                    GL.AttachShader(Handle, vertexShader);
+                }
+
+                
+                if (FragmentAttached)
+                {
+                    ShaderSource = VertexShader;
+                    vertexShader = GL.CreateShader(ShaderType.FragmentShader);
+
+                    // Now, bind the GLSL source code
+                    GL.ShaderSource(fragmentShader, ShaderSource);
+
+                    // And then compile
+                    CompileShader(fragmentShader);
+
+                    GL.AttachShader(Handle, fragmentShader);
+                }
+
+                 LinkProgram(Handle);
+
+                // When the shader program is linked, it no longer needs the individual shaders attached to it; the compiled code is copied into the shader program.
+                // Detach them, and then delete them.
+                if (VertexAttached)
+                {
+                    GL.DetachShader(Handle, vertexShader);
+                    GL.DeleteShader(vertexShader);
+                }
+
+                if (FragmentAttached)
+                {
+                    GL.DetachShader(Handle, fragmentShader);
+                    GL.DeleteShader(fragmentShader);
+                }
+               
+
+
+                GL.GetProgram(Handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
+                _uniformLocations = new Dictionary<string, int>();
+                for (var i = 0; i < numberOfUniforms; i++)
+                {
+                    var key = GL.GetActiveUniform(Handle, i, out _, out ActiveUniformType d);
+                    var location = GL.GetUniformLocation(Handle, key);
+                    _uniformLocations.Add(key, location);
+                }
+
+                return 0;
+            }
 
             private void CreateShaderFromText(string vert, string frag)
             {
                 var shaderSource = vert;
-
                 // GL.CreateShader will create an empty shader (obviously). The ShaderType enum denotes which type of shader will be created.
                 var vertexShader = GL.CreateShader(ShaderType.VertexShader);
 
@@ -84,14 +155,14 @@ namespace HallovEngine.Platform.OpenGL
 
             private static void CompileShader(int shader)
             {
-                // Try to compile the shader
+                
                 GL.CompileShader(shader);
 
-                // Check for compilation errors
+               
                 GL.GetShader(shader, ShaderParameter.CompileStatus, out var code);
                 if (code != (int)All.True)
                 {
-                    // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
+                    
                     var infoLog = GL.GetShaderInfoLog(shader);
                     throw new Exception($"Error occurred whilst compiling Shader({shader}).\n\n{infoLog}");
                 }
@@ -107,7 +178,7 @@ namespace HallovEngine.Platform.OpenGL
                 if (code != (int)All.True)
                 {
                     // We can use `GL.GetProgramInfoLog(program)` to get information about the error.
-                    throw new Exception($"Error occurred whilst linking Program({program})");
+                    throw new Exception($"Error occurred whilst linking Program({program}), : {GL.GetProgramInfoLog(program)}");                   
                 }
             }
 
@@ -123,26 +194,6 @@ namespace HallovEngine.Platform.OpenGL
             {
                 return GL.GetAttribLocation(Handle, attribName);
             }
-
-           
-            public override T SetVariable<T>(string name, T boj) //new()
-            {
-                if (_uniformLocations.TryGetValue(name, out var location))
-                {
-                    GL.UseProgram(Handle);
-                    switch (Rendering.Shader.GetShaderDataType(boj.GetType()))
-                    {
-                       
-                    }                   
-                }
-                else
-                {
-
-                }
-
-                throw new Exception("dk");
-            }
-
 
             #region Sets
             /// <summary>
@@ -194,7 +245,7 @@ namespace HallovEngine.Platform.OpenGL
                 GL.Uniform3(_uniformLocations[name], data);
             }
 
-           
+          
             #endregion
         }
     }
