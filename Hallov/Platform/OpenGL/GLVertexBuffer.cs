@@ -27,7 +27,7 @@ namespace HallovEngine.Platform.OpenGL
 
             public override void BufferData(int size, IntPtr point, uint type)
             {
-                GL.BufferData(BufferTarget.ArrayBuffer, size, point, (BufferUsageHint)type);
+                GL.BufferData(BufferTarget.ArrayBuffer, size, point, BufferUsageHint.StaticDraw);
             }
 
             public override void BufferData(int size, float[] point, uint type)

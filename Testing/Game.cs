@@ -96,25 +96,41 @@ void main(void)
 }");
             shader.Use();
 
-            texture = Rendering.Texture.CreateFromFile(@"D:\Dev\HallovEngine-Master\Testing\Decals\Graffiti\decalgraffiti001b_cs.png");
-            texture.Use((int)TextureUnit.Texture0);
+            texture = Rendering.Texture.CreateFromFile(@"D:\Dev\HallovEngine-Master\Testing\Decals\arrows\{pstripe1.png");
+            //texture.Use((int)TextureUnit.Texture0);
 
         }
         public override void Update()
         {
             //fps.GetFps();
             Hallov.Console.Messages.HV_LOG_WARNING(false, fps.GetFps().ToString());
+            Console.WriteLine('0' + GL.GetError().ToString());
             //Hallov.Console.Log(fps.secondsElapsed.ToString(), ConsoleColor.DarkYellow, this.GetType());
         }
 
         public override void Render()
         {
+           
             shader.Use();
+          
             texture.Use((int)TextureUnit.Texture0);
-
+     
             vertexBuffer.BindBuffer();
+           
             //VertexArray.Draw(3);
-            VertexArray.DrawIndexed(_indices.Length, 5125);
+            try
+            {
+                
+
+                //GL.DrawElements(BeginMode.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
+                VertexArray.DrawIndexed(_indices.Length, 5125);
+            }
+            finally
+            {
+
+            }
+            
+            Console.WriteLine('5' + GL.GetError().ToString());
             Interlocked.Increment(ref fps._frameCount);
         }
 
