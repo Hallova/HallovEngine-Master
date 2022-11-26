@@ -36,6 +36,7 @@ namespace HallovEngine.Platform.OpenGL
             public override void DrawIndexed(int lenght, uint type = 5125)
             {
                 GL.BindVertexArray(array);
+                Console.WriteLine( GL.GetError().ToString());
                 GL.DrawElements(PrimitiveType.Triangles, lenght, DrawElementsType.UnsignedInt, 0);
             }
 

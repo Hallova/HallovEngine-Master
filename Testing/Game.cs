@@ -44,7 +44,7 @@ namespace Testing
 
             vertexBuffer = Rendering.VertexBuffer.New();
             vertexBuffer.BindBuffer();
-            vertexBuffer.BufferData(_vertices.Length * sizeof(float), _vertices, 2);
+            vertexBuffer.BufferData(_vertices.Length * sizeof(float), _vertices, 35044);
             //OpenTK.Graphics.OpenGL4.GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
             VertexArray = Rendering.VertexArray.New();
@@ -62,7 +62,7 @@ namespace Testing
 
             indexBuffer = Rendering.IndexBuffer.New();
             indexBuffer.BindBuffer();
-            indexBuffer.BufferData(_indices.Length * sizeof(int), _indices, 5125);
+            indexBuffer.BufferData(_indices.Length * sizeof(uint), _indices, 5125);
 
             shader = Rendering.Shader.New(@"
 #version 330
@@ -96,41 +96,23 @@ void main(void)
 }");
             shader.Use();
 
-            texture = Rendering.Texture.CreateFromFile(@"D:\Dev\HallovEngine-Master\Testing\Decals\arrows\{pstripe1.png");
-            //texture.Use((int)TextureUnit.Texture0);
+            texture = Rendering.Texture.CreateFromFile(@"D:\Dev\HallovEngine-Master\Testing\Decals\Graffiti\decalgraffiti043a_cs.png");
+            texture.Use((int)TextureUnit.Texture0);
 
         }
         public override void Update()
         {
             //fps.GetFps();
             Hallov.Console.Messages.HV_LOG_WARNING(false, fps.GetFps().ToString());
-            Console.WriteLine('0' + GL.GetError().ToString());
-            //Hallov.Console.Log(fps.secondsElapsed.ToString(), ConsoleColor.DarkYellow, this.GetType());
         }
 
         public override void Render()
         {
-           
             shader.Use();
-          
             texture.Use((int)TextureUnit.Texture0);
-     
-            vertexBuffer.BindBuffer();
-           
-            //VertexArray.Draw(3);
-            try
-            {
-                
 
-                //GL.DrawElements(BeginMode.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
-                VertexArray.DrawIndexed(_indices.Length, 5125);
-            }
-            finally
-            {
-
-            }
-            
-            Console.WriteLine('5' + GL.GetError().ToString());
+            VertexArray.DrawIndexed(_indices.Length, 5125);
+   
             Interlocked.Increment(ref fps._frameCount);
         }
 
