@@ -9,29 +9,32 @@ using System.Threading.Tasks;
 
 namespace HallovEngine.Render
 {
+    public enum ShaderDataType : uint
+    {
+        Int,
+        Float,
+
+        Float2,
+        Float3,
+        Float4,
+
+        Mat4,
+
+        Sampler2D,
+
+        Undefied,
+    }
+
     public static partial class Rendering
     {
         public abstract class Shader
         {
-            public enum ShaderDataType : uint
-            {
-                Int,
-                Float,
-
-                Float2,
-                Float3,
-                Float4,
-
-                Mat4,
-
-                Sampler2D,
-
-                Undefied,
-            }
+            
 
             public abstract byte CompileShader();
-
+            public abstract void SetVar(ShaderDataType type, string name, object var);
             
+
             public static Shader New(string frag, string vert)
             {
                 return Hallov.ProvideShaderFromText(frag, vert);

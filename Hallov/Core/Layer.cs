@@ -25,8 +25,10 @@ namespace HallovEngine.Core
             }
         }
 
-        internal static GraphicsEngine i_graphicsEngine;
+        protected static GraphicsEngine i_graphicsEngine;
         public abstract string Title { get; set; }
+
+        
 
         public uint Run()
         {

@@ -15,7 +15,48 @@ namespace HallovEngine.Platform.OpenGL
 
             private string VertexShader;   private bool VertexAttached;
             private string FragmentShader; private bool FragmentAttached;
+            public override void SetVar(ShaderDataType type, string name, object var)
+            {
+                if (_uniformLocations.ContainsKey(name))
+                {
+                    GL.UseProgram(Handle);
+                    switch (type)
+                    {
+                        case ShaderDataType.Int:
+                            GL.Uniform1(_uniformLocations[name], (int)var);
+                            break;
+                        case ShaderDataType.Float:
+                            GL.Uniform1(_uniformLocations[name], (float)var);
+                            break;
+                        case ShaderDataType.Float2:
+                            GL.Uniform2(_uniformLocations[name], (Vector2)var);
+                            break;
+                        case ShaderDataType.Float3:
+                            GL.Uniform3(_uniformLocations[name], (Vector3)var);
+                            break;
+                        case ShaderDataType.Float4:
+                            GL.Uniform4(_uniformLocations[name], (Vector4)var);
+                            break;
+                        case ShaderDataType.Mat4:
+                            Matrix4 m = (Matrix4)var;
+                            GL.UniformMatrix4(_uniformLocations[name], true, ref m);
+                            break;
+                        case ShaderDataType.Sampler2D:
+                            GL.Uniform1(_uniformLocations[name], (int)var);
+                            break;
+                        default:
+                            throw new ArgumentException();
 
+                    }
+                }
+                else
+                {
+                    HV_LOG_ERROR(false, name);
+                }
+
+                
+                //throw new NotImplementedException(type.ToString());
+            }
 
             public GLShader(string vert, string frag)
             {
@@ -245,7 +286,9 @@ namespace HallovEngine.Platform.OpenGL
                 GL.Uniform3(_uniformLocations[name], data);
             }
 
-          
+           
+
+
             #endregion
         }
     }

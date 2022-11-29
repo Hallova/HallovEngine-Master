@@ -8,6 +8,8 @@ using System.Numerics;
 using Testing;
 using HallovEngine.Platform.OpenGL;
 using HallovEngine;
+using System.Management;
+using Microsoft.Win32;
 
 namespace DrawTriangle;
 
@@ -16,11 +18,11 @@ public static unsafe class Program
 
     public static void Main()
     {
-       // Hallov.Console.Log("hi i just started", ConsoleColor.DarkBlue, typeof(OpenGL));
-        
+        // Hallov.Console.Log("hi i just started", ConsoleColor.DarkBlue, typeof(OpenGL));
         
 
         new Game().Run();
     }
+
 }
 

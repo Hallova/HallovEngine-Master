@@ -14,6 +14,11 @@ namespace HallovEngine.Platform.OpenGL
 
             public override bool IsRunning => !GLFW.WindowShouldClose(i_Window);
 
+            private GLFWCallbacks.FramebufferSizeCallback resizeCallback;
+
+            // later
+            // I genuinely don't know how GLFW this might be the wrong function name.
+
             public override uint Init()
             {
                 GLFW.Init();
@@ -23,15 +28,17 @@ namespace HallovEngine.Platform.OpenGL
 
                 //GLLoader.LoadBindings(new GLFWBindingsContext());
 
+                resizeCallback = framebuffer_size_callback;
+
                 i_Window = GLFW.CreateWindow(800, 600, "hi", null, null);
-                
+
                 if (i_Window is null)
                 {
                     GLFW.DestroyWindow(i_Window);
                 }
 
-                GLFW.SetFramebufferSizeCallback(i_Window, framebuffer_size_callback);
-                
+                GLFW.SetFramebufferSizeCallback(i_Window, resizeCallback);
+                //= framebuffer_size_callback;
 
                 GLFW.MakeContextCurrent(i_Window);
 
@@ -49,7 +56,7 @@ namespace HallovEngine.Platform.OpenGL
                 // make sure the viewport matches the new window dimensions; note that width and 
                 // height will be significantly larger than specified on retina displays.
                 GL.Viewport(0, 0, width, height);
-                //GC.Collect();
+                GC.Collect();
             }
             #endregion
 
@@ -58,6 +65,7 @@ namespace HallovEngine.Platform.OpenGL
                 //GC.Collect();
                 try
                 {
+
                     GLFW.PollEvents();
 
                 }
@@ -71,6 +79,7 @@ namespace HallovEngine.Platform.OpenGL
 
             public override void PreRender()
             {
+
                 GL.ClearColor(0, 0.3f, 0.4f, 1);
                 GL.Clear(ClearBufferMask.ColorBufferBit);
             }
@@ -79,14 +88,18 @@ namespace HallovEngine.Platform.OpenGL
             {
                 try
                 {
-                    GLFW.SwapBuffers(i_Window);
-                    
+                    lock (this)
+                    {
+                        GLFW.SwapBuffers(i_Window);
+                    }
+
+
                 }
-                catch(System.ExecutionEngineException ex)
+                catch (System.ExecutionEngineException ex)
                 {
-                    HV_LOG_ERROR(true ,ex.Message);
+                    HV_LOG_ERROR(true, ex.Message);
                 }
-                
+
                 return 0;
             }
 
@@ -98,6 +111,12 @@ namespace HallovEngine.Platform.OpenGL
             public override void ChangeTitle(string ty)
             {
                 GLFW.SetWindowTitle(i_Window, ty);
+            }
+
+            public override float[] GetWinSize()
+            {
+                GLFW.GetWindowSize(i_Window, out int w, out int h);
+                return new float[2] { w, h };
             }
         }
     }

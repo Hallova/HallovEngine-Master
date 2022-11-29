@@ -17,6 +17,7 @@ namespace HallovEngine.Core
         public enum RenderApi
         {
             OpenGL = 0,
+            Dx11 = 1,
             None = -1
         }
 
@@ -27,6 +28,8 @@ namespace HallovEngine.Core
             switch (Api)
             {
                 case RenderApi.OpenGL:
+                    return new OpenGL.GLGraphicsEngine();
+                case RenderApi.Dx11:
                     return new OpenGL.GLGraphicsEngine();
                 case RenderApi.None:
                     throw new NotImplementedException("Api Not Suported");

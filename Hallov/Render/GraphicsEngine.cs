@@ -10,6 +10,7 @@ namespace HallovEngine.Render
     {
         public abstract bool IsRunning { get; }
         public abstract void ChangeTitle(string ty);
+        public abstract float[] GetWinSize();
 
 
         public abstract uint Init();
