@@ -16,6 +16,8 @@ namespace HallovEngine.Platform.OpenGL
 
             private GLFWCallbacks.FramebufferSizeCallback resizeCallback;
 
+            
+
             // later
             // I genuinely don't know how GLFW this might be the wrong function name.
 

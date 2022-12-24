@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#version 330
 
-namespace Testing
+out vec4 outputColor;
+
+in vec2 texCoord;
+
+uniform sampler2D texture0;
+
+
+void main()
 {
-    class frag
-    {
-    }
+    outputColor = texture(texture0, texCoord);
 }

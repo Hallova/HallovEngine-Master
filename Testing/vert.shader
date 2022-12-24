@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#version 330 core
 
-namespace Testing
+layout(location = 0) in vec3 aPosition;
+
+layout(location = 1) in vec2 aTexCoord;
+
+out vec2 texCoord;
+
+
+void main(void)
 {
-    class vert
-    {
-    }
+    texCoord = aTexCoord;
+
+    gl_Position = vec4(aPosition, 1.0);
 }

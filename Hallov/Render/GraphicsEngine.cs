@@ -8,6 +8,14 @@ namespace HallovEngine.Render
 {
     public abstract class GraphicsEngine  
     {
+        public static GraphicsEngine engine;
+        public GraphicsEngine()
+        {
+            engine = this;
+        }
+
+        
+
         public abstract bool IsRunning { get; }
         public abstract void ChangeTitle(string ty);
         public abstract float[] GetWinSize();

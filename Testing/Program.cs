@@ -19,9 +19,18 @@ public static unsafe class Program
     public static void Main()
     {
         // Hallov.Console.Log("hi i just started", ConsoleColor.DarkBlue, typeof(OpenGL));
-        
 
-        new Game().Run();
+        foreach (var item in Directory.GetFiles(@""))
+        {
+            string text = File.ReadAllText(item);
+
+            text.Replace("HallovEngine", "Hallov");
+
+            File.WriteAllText(item, text);
+        }
+
+
+        //new DxGame().Run();
     }
 
 }

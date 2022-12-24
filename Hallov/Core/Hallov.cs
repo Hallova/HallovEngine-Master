@@ -1,5 +1,6 @@
 ﻿//#define SHOTYPES
 
+using HallovEngine.Platform.Dx11;
 using HallovEngine.Platform.OpenGL;
 using HallovEngine.Render;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace HallovEngine.Core
                 case RenderApi.OpenGL:
                     return new OpenGL.GLGraphicsEngine();
                 case RenderApi.Dx11:
-                    return new OpenGL.GLGraphicsEngine();
+                    return new Dx11.Dx11GraphicsEngine();
                 case RenderApi.None:
                     throw new NotImplementedException("Api Not Suported");
                 default:

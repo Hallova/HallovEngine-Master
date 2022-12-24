@@ -13,11 +13,14 @@ namespace HallovEngine.Render
                 return Hallov.ProvideVertexBuffer();
             }
 
-            public abstract void BindBuffer();
+            //public abstract void BindBuffer();
 
-            public abstract void BufferData(int size, IntPtr point, uint type);
-            public abstract void BufferData(int size, float[] point, uint type);
             //public abstract void BufferData(int size, IntPtr point, uint type);
+            //public abstract void BufferData(int size, float[] point, uint type);
+            //public abstract void BufferData(int size, IntPtr point, uint type);
+
+            public abstract void Load(object list_vertices, int vertex_size, int vertices_size);
+            public abstract void Release();
 
 
         }

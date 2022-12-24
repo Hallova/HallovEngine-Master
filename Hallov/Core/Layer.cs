@@ -12,7 +12,7 @@ namespace HallovEngine.Core
         public static class fps
         {
             public static DateTime _lastCheckTime = DateTime.Now;
-            public static long _frameCount = 0;
+            internal static long _frameCount = 0;
             public static double secondsElapsed;
 
             public static double GetFps()
@@ -21,7 +21,14 @@ namespace HallovEngine.Core
                 long count = Interlocked.Exchange(ref _frameCount, 0);
                 double fps = count / secondsElapsed;
                 _lastCheckTime = DateTime.Now;
+
+
                 return fps;
+            }
+
+            public static void Increse()
+            {
+                Interlocked.Increment(ref fps._frameCount);
             }
         }
 
@@ -39,9 +46,9 @@ namespace HallovEngine.Core
             i_graphicsEngine.Init();
             this.Init();
 
-            HV_LOG(false, "this is a log", this.GetType());
-            HV_LOG_WARNING (false, "this is a Warning", this.GetType());
-            HV_LOG_ERROR(false, "this is a Error", this.GetType());
+            //HV_LOG(false, "this is a log", this.GetType());
+            //HV_LOG_WARNING (false, "this is a Warning", this.GetType());
+            //HV_LOG_ERROR(false, "this is a Error", this.GetType());
 
             while (i_graphicsEngine.IsRunning)
             {
